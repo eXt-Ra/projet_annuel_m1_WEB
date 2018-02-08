@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('build/global.css') }}">
+        <script src="https://use.fontawesome.com/d43aaa4fa6.js"></script>
+    {% endblock %}
+</head>
+<body>
+<div class="container is-fluid">
+    <header>
+        {% block nav %}
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ path('app_default_index') }}">
+                    <img src="https://bulma.io/images/bulma-logo.png"
+                         alt="Bulma: a modern CSS framework based on Flexbox"
+                         width="112" height="28">
+                </a>
+
+                <button class="button navbar-burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a aria-label="close" class="button is-warning"
+                                       href="{{ path('app_admindash_index') }}">
+                                        <span> ADMIN : {{ app.user.firstname }}</span>
+                                    </a>
+                                {% else %}
+                                    <a aria-label="close" class="button is-warning" href="{{ path('app_userdash_index') }}">
+                                        <span> USER : {{ app.user.firstname }}</span>
+                                    </a>
+                                {% endif %}
+
+                                <a aria-label="close" class="button is-link" href="{{ path('logout') }}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                </a>
+                            {% else %}
+                                <a class="button is-warning" href="{{ path('app_security_login') }}">
+                                    <span>Connexion</span>
+                                </a>
+                            {% endif %}
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        {% endblock %}
+    </header>
+    {% block body %}
+        Hello world !
+    {% endblock %}
+</div>
+
+{% block javascripts %}
+{% endblock %}
+</body>
+</html>
